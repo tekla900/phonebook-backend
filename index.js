@@ -70,13 +70,24 @@ const generateId = () => {
   
 app.post('/api/persons', (request, response) => {
     const body = request.body;
-    console.log(body);
+    const found =  persons.find(el => el.name.toLowerCase() === body.name.toLowerCase());
+
+    if (!body.name || !body.number) {
+        return response.status(400).json({ 
+          error: 'name or number is missing'
+        })
+    } else if(found) {
+        return response.status(400).json({ 
+            error: 'name must be unique'
+        })
+    }
+
     const person = {
         name: body.name,
         number: body.number,
         id: generateId(),
     };
-    console.log(person);
+
     persons = persons.concat(person);
 
     response.json(person);
