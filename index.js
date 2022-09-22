@@ -1,4 +1,5 @@
 const express = require('express');
+var morgan = require('morgan');
 const app = express();
 
 let persons = [
@@ -24,9 +25,8 @@ let persons = [
     }
 ];
 
-
 app.use(express.json());
-
+app.use(morgan('common'));
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>');
