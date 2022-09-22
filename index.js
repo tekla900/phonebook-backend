@@ -61,6 +61,29 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end();
 });
 
+const generateId = () => {
+    const maxId = persons.length > 0
+      ? Math.max(...persons.map(n => n.id))
+      : 0
+    return maxId + 1
+  }
+  
+app.post('/api/persons', (request, response) => {
+    const body = request.body;
+    console.log(body);
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId(),
+    };
+    console.log(person);
+    persons = persons.concat(person);
+
+    response.json(person);
+});
+  
+
+
 const PORT = 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
